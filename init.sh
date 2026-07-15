@@ -4,7 +4,7 @@ app=$1
 env=$2
 action=$3
 
-services=(catalogue user cart shipping frontend )
+services=(catalogue user cart shipping payment frontend )
 
 # if $1 or 2 or 3 or all are empty, exit the script and output the usage information
 if [[ -z "$app" || -z "$env" || -z "$action" ]]; then
@@ -13,10 +13,6 @@ if [[ -z "$app" || -z "$env" || -z "$action" ]]; then
   exit 1
 fi  
 
-echo "Usage: $0 <app> <env> <action>"
-echo "  <app>: all or specific service name"
-echo "  <env>: environment name"
-echo "  <action>: install or uninstall"
 
 if [[ $app == "all" ]]; then
   case "$action" in
