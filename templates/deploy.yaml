@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Chart.Name }}
     tier: {{ .Values.component.name }}
-    bunit: {{ .Values.bunit | default "xxxxx" }}
+    bunit: {{ .Values.bunit | default "xxxxx" | quote }}
 spec:
   # modify replicas according to your case
   replicas: {{ .Values.component.replicas | default 2 }}
