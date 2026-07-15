@@ -1,0 +1,9 @@
+---
+# configMap for frontend component
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.component.name }}-cm
+data:
+  # property-like keys; each key maps to a simple value
+  COMPONENT: {{ .Values.component.name | quote }}

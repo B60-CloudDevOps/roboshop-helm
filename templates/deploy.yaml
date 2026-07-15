@@ -1,0 +1,40 @@
+# generate a deployment yaml for frontend component# create deployment with nginx as image
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.component.name }}
+  labels:
+    app: {{ .Chart.Name }}
+    tier: {{ .Values.component.name }}
+spec:
+  # modify replicas according to your case
+  replicas: {{ .Values.component.replicas | default 2 }}
+  selector:
+    matchLabels:
+      tier: {{ .Values.component.name }}
+  template:
+    metadata:
+      labels:
+        tier: {{ .Values.component.name }}
+    spec:
+      containers:
+      - name: {{ .Values.component.name }}
+        image: "{{ .Values.appImage }}:{{ .Values.appVersion }}"
+        ports:
+        - containerPort: {{ .Values.appPort }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.component.name }}-cm
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.probes.liveness.path }}
+            port: {{ .Values.probes.liveness.port }}
+          initialDelaySeconds: {{ .Values.probes.initialDelaySeconds }}
+          periodSeconds: {{ .Values.probes.periodSeconds }}
+          timeoutSeconds: {{ .Values.probes.timeoutSeconds }}
+          failureThreshold: {{ .Values.probes.failureThreshold }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.probes.readiness.path }}
+            port: {{ .Values.probes.readiness.port }}
+          periodSeconds: 5

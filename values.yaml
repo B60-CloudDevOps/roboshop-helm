@@ -1,0 +1,2 @@
+app: roboshop
+# Rest of the values would be coming up from the components repository values.yaml file

@@ -1,0 +1,15 @@
+---
+
+# create LoadBalancer service ; We can make the service accessible from outside the cluster
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.component.name }}-svc
+spec:
+  selector:
+    tier: {{ .Values.component.name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.appPort }}
+      targetPort: {{ .Values.appPort }}
+  type: {{ .Values.service.type | default "ClusterIP" }}     
